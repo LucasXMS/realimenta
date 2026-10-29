@@ -1,0 +1,348 @@
+/* =============================================================
+   LAYOUT — cabeçalho, seções, grades e rodapé
+   ============================================================= */
+
+/* Biblioteca de ícones: fica no HTML, mas não ocupa espaço */
+.sprite {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+/* Ícone padrão (traço consistente em todo o site) */
+.icone {
+  width: 1.5em;
+  height: 1.5em;
+  flex: none;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+main:focus {
+  outline: none;
+}
+
+/* ---------- Cabeçalho fixo ---------- */
+.cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(250, 246, 238, 0.96);
+  border-bottom: 1px solid var(--borda);
+  backdrop-filter: blur(6px);
+}
+
+.cabecalho__interno {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--espaco-4);
+  min-height: var(--altura-cabecalho);
+}
+
+.marca {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  color: var(--verde-escuro);
+  font-family: var(--fonte-titulo);
+  font-size: 1.4rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.marca:hover {
+  color: var(--verde-escuro);
+}
+
+.marca__icone {
+  flex: none;
+  width: 2.2rem;
+  height: 2.2rem;
+}
+
+/* Navegação: sem JavaScript, os links aparecem em linhas que quebram */
+.nav__lista {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-1) var(--espaco-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.nav__link {
+  display: block;
+  padding: 0.45rem 0.6rem;
+  border-radius: 999px;
+  color: var(--grafite);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nav__link:hover {
+  color: var(--verde-escuro);
+  background: var(--verde-suave);
+}
+
+/* Seção visível: fundo claro + sublinhado (não depende só da cor) */
+.nav__link[aria-current="true"] {
+  color: var(--verde-escuro);
+  background: var(--verde-suave);
+  box-shadow: inset 0 -3px 0 var(--verde);
+}
+
+.nav__painel {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--espaco-3);
+}
+
+.nav__botao {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--espaco-2);
+  min-height: 2.75rem;
+  padding: 0.5rem 0.9rem;
+  border: 2px solid var(--verde-escuro);
+  border-radius: 999px;
+  background: var(--branco);
+  color: var(--verde-escuro);
+  font-weight: 700;
+}
+
+/* Sem JS no celular: o cabeçalho deixa de ser fixo para não cobrir a tela */
+@media (max-width: 68.74em) {
+  html:not(.js) .cabecalho {
+    position: static;
+  }
+
+  html:not(.js) .cabecalho__interno {
+    flex-wrap: wrap;
+    padding-block: var(--espaco-3);
+  }
+
+  /* Com JS: menu recolhível */
+  .js .nav__painel {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--espaco-4);
+    max-height: calc(100vh - var(--altura-cabecalho));
+    overflow-y: auto;
+    padding: var(--espaco-4) 1rem var(--espaco-5);
+    background: var(--creme);
+    border-bottom: 1px solid var(--borda);
+    box-shadow: 0 12px 24px rgba(31, 41, 37, 0.12);
+  }
+
+  .js .nav__painel:not(.nav__painel--aberto) {
+    display: none;
+  }
+
+  .js .nav__lista {
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .js .nav__link {
+    padding: 0.8rem 0.75rem;
+    border-radius: var(--raio);
+    font-size: 1.1rem;
+  }
+
+  .js .nav__cta {
+    justify-content: center;
+  }
+}
+
+@media (min-width: 68.75em) {
+  .nav__botao {
+    display: none !important;
+  }
+
+  .nav__painel {
+    flex-wrap: nowrap;
+  }
+
+  .nav__lista {
+    flex-wrap: nowrap;
+  }
+
+  .nav__link {
+    font-size: 1rem;
+  }
+}
+
+/* ---------- Seções ---------- */
+.secao {
+  padding-block: var(--espaco-8);
+}
+
+.secao--alternada {
+  background: var(--creme-escuro);
+}
+
+.secao__cabecalho {
+  max-width: var(--largura-texto);
+  margin-bottom: var(--espaco-6);
+}
+
+.secao__intro {
+  font-size: 1.12em;
+  color: var(--texto-suave);
+}
+
+.subtitulo {
+  margin-top: var(--espaco-7);
+}
+
+.bloco-texto {
+  max-width: var(--largura-texto);
+}
+
+/* Grade de duas colunas (empilha no celular) */
+.duas-colunas {
+  display: grid;
+  gap: var(--espaco-5);
+  margin-block: var(--espaco-6);
+}
+
+@media (min-width: 52em) {
+  .duas-colunas {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--espaco-6);
+    align-items: start;
+  }
+
+  .duas-colunas--centro {
+    align-items: center;
+  }
+}
+
+/* ---------- Início ---------- */
+.secao--inicio {
+  padding-block: var(--espaco-7) var(--espaco-8);
+  background:
+    radial-gradient(circle at 85% 20%, rgba(155, 196, 106, 0.22), transparent 45%),
+    var(--creme);
+}
+
+.inicio {
+  display: grid;
+  gap: var(--espaco-6);
+  align-items: center;
+}
+
+.inicio__lead {
+  max-width: 40rem;
+  font-size: 1.18em;
+}
+
+.inicio__ilustracao {
+  width: 100%;
+  max-width: 22rem;
+  margin-inline: auto;
+}
+
+.inicio__ilustracao svg {
+  width: 100%;
+  height: auto;
+}
+
+@media (min-width: 60em) {
+  .inicio {
+    grid-template-columns: 1.35fr 1fr;
+    gap: var(--espaco-7);
+  }
+
+  .inicio__ilustracao {
+    max-width: 30rem;
+  }
+}
+
+.linha-institucional {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--espaco-1) 0;
+  margin-top: var(--espaco-6);
+  font-size: var(--tamanho-pequeno);
+  font-weight: 600;
+  color: var(--texto-suave);
+}
+
+.linha-institucional span:not(:last-child)::after,
+.rodape__institucional span:not(:last-child)::after {
+  content: "·";
+  margin-inline: 0.55em;
+  color: var(--verde);
+}
+
+/* ---------- Rodapé ---------- */
+.rodape {
+  padding-block: var(--espaco-7);
+  background: var(--verde-escuro);
+  color: #EAF2E6;
+}
+
+.rodape__interno {
+  display: grid;
+  gap: var(--espaco-5);
+  align-items: center;
+}
+
+@media (min-width: 60em) {
+  .rodape__interno {
+    grid-template-columns: 1fr auto auto;
+  }
+
+  .rodape__institucional {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+}
+
+.rodape__nome {
+  margin-bottom: var(--espaco-1);
+  font-family: var(--fonte-titulo);
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--branco);
+}
+
+.rodape__aviso {
+  margin: 0;
+  font-weight: 600;
+}
+
+.rodape__institucional {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  font-size: var(--tamanho-pequeno);
+}
+
+.rodape__institucional span::after {
+  color: var(--verde-claro) !important;
+}
+
+.rodape__logo {
+  max-height: 4rem;
+  width: auto;
+  padding: var(--espaco-2);
+  background: var(--branco);
+  border-radius: 8px;
+}
+
+.rodape :focus-visible {
+  outline-color: var(--branco);
+}

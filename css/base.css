@@ -1,0 +1,282 @@
+/* =============================================================
+   BASE — variáveis, reset, tipografia e utilitários
+   ============================================================= */
+
+/* ---------- Variáveis (paleta, tipografia, espaçamentos) ---------- */
+:root {
+  /* Paleta */
+  --verde-escuro: #1F4D3A;   /* estrutura e títulos */
+  --verde: #2E7D5B;          /* cor principal: botões e links */
+  --verde-hover: #245F46;
+  --verde-texto: #24694C;    /* texto verde pequeno: contraste AA também no fundo creme-escuro */
+  --verde-claro: #9BC46A;    /* acentos decorativos */
+  --verde-suave: #E4EFD9;    /* fundos de destaque */
+  --laranja: #E07A3F;        /* desperdício em elementos grandes */
+  --laranja-grafico: #C9652D;/* barras e linhas de descarte (contraste 3:1) */
+  --laranja-forte: #8F3F17;  /* destaque do maior valor nos gráficos */
+  --laranja-texto: #A8481E;  /* texto de alerta (contraste AA) */
+  --laranja-suave: #FBE7DA;  /* fundos de alerta */
+  --trigo: #D4A23C;          /* decoração (grãos) */
+  --creme: #FAF6EE;          /* fundo da página */
+  --creme-escuro: #F1EADB;   /* faixas alternadas */
+  --branco: #FFFFFF;
+  --grafite: #1F2925;        /* texto */
+  --texto-suave: #4A5650;    /* texto secundário */
+  --borda: #D8D0BF;
+  --borda-forte: #8C8676;
+  --foco: #1F4D3A;
+
+  /* Tipografia (com fallback do sistema para funcionar offline) */
+  --fonte-titulo: "Fraunces", Georgia, "Times New Roman", serif;
+  --fonte-texto: "Source Sans 3", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+
+  --tamanho-base: 1.0625rem;  /* 17 px no celular */
+  --tamanho-pequeno: 0.9375rem;
+  --tamanho-h1: clamp(2.1rem, 1.4rem + 3.4vw, 3.9rem);
+  --tamanho-h2: clamp(1.85rem, 1.3rem + 2.4vw, 3rem);
+  --tamanho-h3: clamp(1.3rem, 1.1rem + 0.8vw, 1.65rem);
+  --tamanho-numero: clamp(2.6rem, 1.8rem + 3.6vw, 4.6rem);
+
+  /* Espaçamentos e formas */
+  --espaco-1: 0.25rem;
+  --espaco-2: 0.5rem;
+  --espaco-3: 0.75rem;
+  --espaco-4: 1rem;
+  --espaco-5: 1.5rem;
+  --espaco-6: 2rem;
+  --espaco-7: 3rem;
+  --espaco-8: 4.5rem;
+  --raio: 14px;
+  --raio-grande: 24px;
+  --sombra: 0 1px 2px rgba(31, 41, 37, 0.06), 0 6px 18px rgba(31, 41, 37, 0.07);
+  --largura-max: 72rem;
+  --largura-texto: 44rem;
+  --altura-cabecalho: 4.25rem;
+}
+
+@media (min-width: 64em) {
+  :root {
+    --tamanho-base: 1.1875rem; /* 19 px no desktop (mínimo pedido: 18 px) */
+    --tamanho-pequeno: 1rem;
+    --altura-cabecalho: 4.75rem;
+  }
+}
+
+/* ---------- Reset leve ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--altura-cabecalho) + 1rem);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: var(--creme);
+  color: var(--grafite);
+  font-family: var(--fonte-texto);
+  font-size: var(--tamanho-base);
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+img {
+  height: auto;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  cursor: pointer;
+}
+
+table {
+  border-collapse: collapse;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* ---------- Tipografia ---------- */
+h1,
+h2,
+h3,
+h4 {
+  margin: 0 0 var(--espaco-4);
+  font-family: var(--fonte-titulo);
+  font-weight: 650;
+  line-height: 1.15;
+  color: var(--verde-escuro);
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--tamanho-h1);
+  letter-spacing: -0.015em;
+}
+
+h2 {
+  font-size: var(--tamanho-h2);
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: var(--tamanho-h3);
+}
+
+h4 {
+  font-size: 1.15rem;
+}
+
+p,
+ul,
+ol,
+dl,
+blockquote,
+figure {
+  margin: 0 0 var(--espaco-4);
+}
+
+p {
+  text-wrap: pretty;
+}
+
+ul,
+ol {
+  padding-left: 1.25em;
+}
+
+a {
+  color: var(--verde-texto);
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--verde-hover);
+  text-decoration-thickness: 0.14em;
+}
+
+strong {
+  font-weight: 700;
+}
+
+small {
+  font-size: var(--tamanho-pequeno);
+}
+
+sub {
+  line-height: 0;
+}
+
+/* ---------- Foco visível ---------- */
+:focus-visible {
+  outline: 3px solid var(--foco);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* ---------- Utilitários ---------- */
+.container {
+  width: 100%;
+  max-width: var(--largura-max);
+  margin-inline: auto;
+  padding-inline: 1rem;
+}
+
+@media (min-width: 48em) {
+  .container {
+    padding-inline: 2rem;
+  }
+}
+
+/* Esconde visualmente, mas mantém para leitores de tela */
+.visualmente-oculto {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+/* Link "Pular para o conteúdo" */
+.pular-conteudo {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  z-index: 1000;
+  padding: 0.75rem 1.25rem;
+  background: var(--verde-escuro);
+  color: var(--branco);
+  font-weight: 700;
+  border-radius: var(--raio);
+  transform: translateY(-160%);
+  transition: transform 0.15s ease;
+}
+
+.pular-conteudo:focus {
+  transform: translateY(0);
+  color: var(--branco);
+}
+
+.texto-suave {
+  color: var(--texto-suave);
+}
+
+/* Citação no formato autor-data (ABNT) */
+.citacao {
+  font-size: var(--tamanho-pequeno);
+  color: var(--texto-suave);
+  font-weight: 600;
+  white-space: normal;
+}
+
+.sobretitulo {
+  margin-bottom: var(--espaco-3);
+  font-size: var(--tamanho-pequeno);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--verde-texto);
+}
+
+/* ---------- Movimento reduzido ---------- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

@@ -1,0 +1,396 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ReAlimenta: demonstração com dados fictícios | UCSal</title>
+  <meta name="description" content="Protótipo conceitual da plataforma ReAlimenta, com dados fictícios: anúncio de excedentes, reservas, registro de descartes e painel de monitoramento.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="ReAlimenta">
+  <meta property="og:title" content="ReAlimenta: demonstração com dados fictícios">
+  <meta property="og:description" content="Veja como a plataforma proposta funcionaria: excedentes, reservas, descartes e painel de monitoramento, com dados fictícios.">
+  <meta name="theme-color" content="#1F4D3A">
+  <link rel="icon" href="assets/icones/favicon.svg" type="image/svg+xml">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&amp;family=Source+Sans+3:wght@400;600;700&amp;display=swap" media="print" onload="this.media='all'">
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/componentes.css">
+  <link rel="stylesheet" href="css/prototipo.css">
+
+  <script>document.documentElement.classList.add("js");</script>
+  <!-- A ordem importa: configuração → dados → gráficos → lógica da demonstração -->
+  <script defer src="js/config.js"></script>
+  <script defer src="js/dados-demo.js"></script>
+  <script defer src="js/graficos.js"></script>
+  <script defer src="js/prototipo.js"></script>
+</head>
+<body class="pagina-prototipo">
+  <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-mercado" viewBox="0 0 24 24"><path d="M3 4h2l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L21 8H6"/><circle cx="9.5" cy="19.5" r="1.5"/><circle cx="17" cy="19.5" r="1.5"/></symbol>
+    <symbol id="i-pessoas" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/></symbol>
+    <symbol id="i-monitorar" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></symbol>
+    <symbol id="i-cadastrar" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></symbol>
+    <symbol id="i-descarte" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></symbol>
+    <symbol id="i-redistribuir" viewBox="0 0 24 24"><path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5"/></symbol>
+    <symbol id="i-balanca" viewBox="0 0 24 24"><path d="M6.5 9h11l2.5 11H4L6.5 9z"/><circle cx="12" cy="6" r="2.5"/><path d="M9.5 15.5h5"/></symbol>
+    <symbol id="i-confirmar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+    <symbol id="i-local" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+    <symbol id="i-calendario" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-relogio" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></symbol>
+    <symbol id="i-seta" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-voltar" viewBox="0 0 24 24"><path d="M19 12H5M11 6l-6 6 6 6"/></symbol>
+    <symbol id="i-refazer" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.3-5.7"/><path d="M4 4v4h4"/></symbol>
+    <symbol id="i-fechar" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-queda" viewBox="0 0 24 24"><path d="m3 7 6 6 4-4 8 8"/><path d="M21 11v6h-6"/></symbol>
+    <symbol id="i-subida" viewBox="0 0 24 24"><path d="m3 17 6-6 4 4 8-8"/><path d="M21 13V7h-6"/></symbol>
+    <symbol id="i-busca" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></symbol>
+    <symbol id="i-educar" viewBox="0 0 24 24"><path d="M12 6.5C10 5 7 4.5 3 5v13c4-.5 7 0 9 1.5 2-1.5 5-2 9-1.5V5c-4-.5-7 0-9 1.5z"/><path d="M12 6.5v13"/></symbol>
+    <symbol id="i-tabela" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2"/><path d="M3.5 9.5h17M3.5 14.5h17M10 9.5v10"/></symbol>
+  </svg>
+
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+  <header class="cabecalho cabecalho--prototipo">
+    <div class="cabecalho__interno container">
+      <a class="marca" href="index.html">
+        <svg class="marca__icone" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <circle cx="32" cy="32" r="30" fill="#1F4D3A"/>
+          <path d="M32 12c12 6 13 24 0 34C19 36 20 18 32 12z" fill="#9BC46A"/>
+          <path d="M32 18v30" stroke="#1F4D3A" stroke-width="3" stroke-linecap="round"/>
+          <path d="M14 44a20 20 0 0 0 30 6" fill="none" stroke="#E07A3F" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <span class="marca__nome" data-config="nomePlataforma">ReAlimenta</span>
+      </a>
+      <a class="link-voltar" href="index.html">
+        <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-voltar"/></svg>
+        Voltar à apresentação
+      </a>
+    </div>
+  </header>
+
+  <!-- Faixa de aviso: fica fixa no topo em todas as visões -->
+  <div class="aviso-ficticio" role="region" aria-label="Aviso sobre os dados da demonstração">
+      <div class="container aviso-ficticio__interno">
+        <p class="aviso-ficticio__texto">
+          <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-info"/></svg>
+          <span><strong>Demonstração com dados fictícios</strong> — protótipo conceitual da proposta.</span>
+        </p>
+        <div class="aviso-ficticio__acoes">
+          <button type="button" class="botao-pequeno" id="botao-restaurar">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-refazer"/></svg>
+            Restaurar dados de exemplo
+          </button>
+          <button type="button" class="botao-pequeno botao-pequeno--perigo" id="botao-apagar">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-descarte"/></svg>
+            Apagar tudo
+          </button>
+        </div>
+      </div>
+  </div>
+
+  <main id="conteudo" class="prototipo container" tabindex="-1">
+    <noscript>
+      <p class="aviso-noscript">
+        Esta demonstração precisa de JavaScript para funcionar. Ative o JavaScript no navegador ou volte para a
+        <a href="index.html">apresentação do projeto</a>, que funciona sem ele.
+      </p>
+    </noscript>
+
+    <div class="prototipo__topo">
+      <h1 class="prototipo__titulo">Como a plataforma <span data-config="nomePlataforma">ReAlimenta</span> funcionaria</h1>
+      <div class="visoes">
+        <p class="visoes__rotulo" id="rotulo-visoes">Ver como:</p>
+        <div class="visoes__abas" role="tablist" aria-labelledby="rotulo-visoes">
+          <button type="button" class="visoes__aba" role="tab" id="aba-estabelecimento" aria-controls="painel-estabelecimento" aria-selected="true" data-visao="estabelecimento">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-mercado"/></svg>
+            Estabelecimento
+          </button>
+          <button type="button" class="visoes__aba" role="tab" id="aba-receptor" aria-controls="painel-receptor" aria-selected="false" tabindex="-1" data-visao="receptor">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-pessoas"/></svg>
+            Pessoa ou instituição
+          </button>
+          <button type="button" class="visoes__aba" role="tab" id="aba-painel" aria-controls="painel-painel" aria-selected="false" tabindex="-1" data-visao="painel">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-monitorar"/></svg>
+            Painel de monitoramento
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= VISÃO: ESTABELECIMENTO ================= -->
+    <section class="visao" role="tabpanel" id="painel-estabelecimento" aria-labelledby="aba-estabelecimento" tabindex="0">
+      <div class="visao__cabeca">
+        <h2>Visão do estabelecimento</h2>
+        <div class="campo campo--linha">
+          <label for="sel-estabelecimento">Você está como:</label>
+          <select id="sel-estabelecimento"></select>
+        </div>
+      </div>
+
+      <div class="resumo" id="resumo-estabelecimento"></div>
+
+      <div class="grade-visao">
+        <div class="pilha">
+          <form class="formulario" id="form-excedente" novalidate aria-labelledby="titulo-form-excedente">
+            <h3 id="titulo-form-excedente">
+              <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-cadastrar"/></svg>
+              Anunciar excedente
+            </h3>
+            <p class="formulario__nota">Campos marcados com * são obrigatórios.</p>
+
+            <div class="campo">
+              <label for="exc-alimento">Alimento <span aria-hidden="true">*</span></label>
+              <input id="exc-alimento" name="alimento" type="text" maxlength="60" required autocomplete="off" aria-describedby="exc-alimento-erro">
+              <p class="campo__erro" id="exc-alimento-erro"></p>
+            </div>
+            <div class="campos-lado">
+              <div class="campo">
+                <label for="exc-categoria">Categoria <span aria-hidden="true">*</span></label>
+                <select id="exc-categoria" name="categoria" required aria-describedby="exc-categoria-erro"></select>
+                <p class="campo__erro" id="exc-categoria-erro"></p>
+              </div>
+              <div class="campo">
+                <label for="exc-kg">Quantidade estimada (kg) <span aria-hidden="true">*</span></label>
+                <input id="exc-kg" name="kg" type="text" inputmode="decimal" required autocomplete="off" placeholder="Ex.: 2,5" aria-describedby="exc-kg-erro">
+                <p class="campo__erro" id="exc-kg-erro"></p>
+              </div>
+            </div>
+            <div class="campo">
+              <label for="exc-consumir">Consumir até <span aria-hidden="true">*</span></label>
+              <input id="exc-consumir" name="consumirAte" type="date" required aria-describedby="exc-consumir-erro">
+              <p class="campo__erro" id="exc-consumir-erro"></p>
+            </div>
+            <fieldset class="campo-grupo">
+              <legend>Janela de retirada <span aria-hidden="true">*</span></legend>
+              <div class="campos-lado campos-lado--tres">
+                <div class="campo">
+                  <label for="exc-retirada-data">Data</label>
+                  <input id="exc-retirada-data" name="retiradaData" type="date" required aria-describedby="exc-retirada-data-erro">
+                  <p class="campo__erro" id="exc-retirada-data-erro"></p>
+                </div>
+                <div class="campo">
+                  <label for="exc-retirada-inicio">Hora inicial</label>
+                  <input id="exc-retirada-inicio" name="retiradaInicio" type="time" required aria-describedby="exc-retirada-inicio-erro">
+                  <p class="campo__erro" id="exc-retirada-inicio-erro"></p>
+                </div>
+                <div class="campo">
+                  <label for="exc-retirada-fim">Hora final</label>
+                  <input id="exc-retirada-fim" name="retiradaFim" type="time" required aria-describedby="exc-retirada-fim-erro">
+                  <p class="campo__erro" id="exc-retirada-fim-erro"></p>
+                </div>
+              </div>
+            </fieldset>
+            <div class="campo">
+              <label for="exc-observacoes">Observações <span class="campo__opcional">(opcional)</span></label>
+              <textarea id="exc-observacoes" name="observacoes" rows="2" maxlength="200" aria-describedby="exc-observacoes-ajuda"></textarea>
+              <p class="campo__ajuda" id="exc-observacoes-ajuda">Até 200 caracteres. Não inclua dados pessoais.</p>
+            </div>
+            <div class="campo campo--caixa">
+              <input id="exc-confirmo" name="confirmo" type="checkbox" required aria-describedby="exc-confirmo-erro">
+              <label for="exc-confirmo">Confirmo que o alimento está dentro do prazo de validade e em condições adequadas para consumo (Lei nº 14.016/2020) <span aria-hidden="true">*</span></label>
+              <p class="campo__erro" id="exc-confirmo-erro"></p>
+            </div>
+            <button type="submit" class="botao botao--primario">Anunciar excedente</button>
+          </form>
+
+          <form class="formulario formulario--descarte" id="form-descarte" novalidate aria-labelledby="titulo-form-descarte">
+            <h3 id="titulo-form-descarte">
+              <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-descarte"/></svg>
+              Registrar descarte
+            </h3>
+            <p class="formulario__nota">Registrar o que foi para o lixo é o que permite prevenir novas perdas. Todos os campos são obrigatórios.</p>
+            <input type="hidden" id="des-excedente-id" name="excedenteId" value="">
+            <div class="campo">
+              <label for="des-alimento">Alimento <span aria-hidden="true">*</span></label>
+              <input id="des-alimento" name="alimento" type="text" maxlength="60" required autocomplete="off" aria-describedby="des-alimento-erro">
+              <p class="campo__erro" id="des-alimento-erro"></p>
+            </div>
+            <div class="campos-lado">
+              <div class="campo">
+                <label for="des-categoria">Categoria <span aria-hidden="true">*</span></label>
+                <select id="des-categoria" name="categoria" required aria-describedby="des-categoria-erro"></select>
+                <p class="campo__erro" id="des-categoria-erro"></p>
+              </div>
+              <div class="campo">
+                <label for="des-kg">Quantidade (kg) <span aria-hidden="true">*</span></label>
+                <input id="des-kg" name="kg" type="text" inputmode="decimal" required autocomplete="off" placeholder="Ex.: 1,2" aria-describedby="des-kg-erro">
+                <p class="campo__erro" id="des-kg-erro"></p>
+              </div>
+            </div>
+            <div class="campos-lado">
+              <div class="campo">
+                <label for="des-data">Data <span aria-hidden="true">*</span></label>
+                <input id="des-data" name="data" type="date" required aria-describedby="des-data-erro">
+                <p class="campo__erro" id="des-data-erro"></p>
+              </div>
+              <div class="campo">
+                <label for="des-motivo">Motivo <span aria-hidden="true">*</span></label>
+                <select id="des-motivo" name="motivo" required aria-describedby="des-motivo-erro"></select>
+                <p class="campo__erro" id="des-motivo-erro"></p>
+              </div>
+            </div>
+            <button type="submit" class="botao botao--descarte">Registrar descarte</button>
+          </form>
+
+          <!-- Dica educativa exibida depois de registrar um descarte -->
+          <div class="dica" id="dica-descarte" tabindex="-1" hidden>
+            <svg class="icone dica__icone" aria-hidden="true" focusable="false"><use href="#i-educar"/></svg>
+            <div>
+              <p class="dica__tema" id="dica-tema"></p>
+              <p class="dica__texto" id="dica-texto"></p>
+            </div>
+          </div>
+        </div>
+
+        <div class="pilha">
+          <h3>Meus excedentes</h3>
+          <div id="meus-excedentes"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= VISÃO: PESSOA OU INSTITUIÇÃO ================= -->
+    <section class="visao" role="tabpanel" id="painel-receptor" aria-labelledby="aba-receptor" tabindex="0" hidden>
+      <div class="visao__cabeca">
+        <h2>Visão de pessoa ou instituição</h2>
+        <div class="campo campo--linha">
+          <label for="sel-receptor">Você está como:</label>
+          <select id="sel-receptor"></select>
+        </div>
+      </div>
+
+      <div class="grade-visao grade-visao--receptor">
+        <div>
+          <h3>Excedentes disponíveis</h3>
+          <div class="filtros" role="group" aria-label="Filtrar excedentes">
+            <div class="campo">
+              <label for="filtro-categoria">Categoria</label>
+              <select id="filtro-categoria"></select>
+            </div>
+            <div class="campo">
+              <label for="filtro-bairro">Bairro</label>
+              <select id="filtro-bairro"></select>
+            </div>
+            <div class="campo campo--busca">
+              <label for="filtro-busca">Buscar</label>
+              <input id="filtro-busca" type="search" autocomplete="off" placeholder="Alimento ou estabelecimento">
+            </div>
+          </div>
+          <p class="contagem" id="contagem-disponiveis" aria-live="polite"></p>
+          <ul class="cards-excedentes" id="lista-disponiveis" role="list"></ul>
+        </div>
+        <aside class="reservas" aria-labelledby="titulo-reservas">
+          <h3 id="titulo-reservas">Minhas reservas</h3>
+          <ul class="lista-simples" id="lista-reservas" role="list"></ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ================= VISÃO: PAINEL DE MONITORAMENTO ================= -->
+    <section class="visao" role="tabpanel" id="painel-painel" aria-labelledby="aba-painel" tabindex="0" hidden>
+      <div class="visao__cabeca">
+        <h2>Painel de monitoramento</h2>
+        <div class="filtros filtros--painel" role="group" aria-label="Filtros do painel">
+          <div class="campo">
+            <label for="filtro-painel-periodo">Período</label>
+            <select id="filtro-painel-periodo">
+              <option value="4">Últimas 4 semanas</option>
+              <option value="8">Últimas 8 semanas</option>
+              <option value="tudo">Tudo</option>
+            </select>
+          </div>
+          <div class="campo">
+            <label for="filtro-painel-estabelecimento">Estabelecimento</label>
+            <select id="filtro-painel-estabelecimento"></select>
+          </div>
+        </div>
+      </div>
+      <p class="texto-suave painel__periodo" id="painel-descricao-periodo"></p>
+
+      <h3 class="visualmente-oculto">Indicadores</h3>
+      <ul class="kpis" id="indicadores" role="list"></ul>
+
+      <section class="leituras" aria-labelledby="titulo-leituras">
+        <h3 id="titulo-leituras">Leituras automáticas</h3>
+        <p class="texto-suave">Frases geradas por regras simples e transparentes a partir dos registros (sem inteligência artificial). Use o botão ⓘ para ver a regra de cada uma.</p>
+        <ul class="leituras__lista" id="leituras" role="list"></ul>
+      </section>
+
+      <div class="graficos">
+        <figure class="grafico grafico--largo" id="grafico-dias">
+          <figcaption>
+            <h3 class="grafico__titulo">Descarte médio por dia da semana</h3>
+            <p class="grafico__nota">Média de kg descartados em cada dia da semana no período. O maior valor aparece em destaque.</p>
+          </figcaption>
+          <div class="grafico__area"></div>
+        </figure>
+        <figure class="grafico" id="grafico-categorias">
+          <figcaption>
+            <h3 class="grafico__titulo">Descarte por categoria</h3>
+            <p class="grafico__nota">Total de kg descartados e participação no período.</p>
+          </figcaption>
+          <div class="grafico__area"></div>
+        </figure>
+        <figure class="grafico" id="grafico-motivos">
+          <figcaption>
+            <h3 class="grafico__titulo">Motivos de descarte</h3>
+            <p class="grafico__nota">Total de kg por motivo informado no registro.</p>
+          </figcaption>
+          <div class="grafico__area"></div>
+        </figure>
+        <figure class="grafico grafico--largo" id="grafico-semanas">
+          <figcaption>
+            <h3 class="grafico__titulo">Evolução semanal</h3>
+            <p class="grafico__nota">kg disponibilizados, redistribuídos e descartados em cada semana (semanas terminando hoje).</p>
+          </figcaption>
+          <div class="grafico__area"></div>
+        </figure>
+        <figure class="grafico grafico--largo" id="grafico-ranking">
+          <figcaption>
+            <h3 class="grafico__titulo">Estabelecimentos com mais descarte</h3>
+            <p class="grafico__nota">Ranking de kg descartados no período, considerando todos os estabelecimentos.</p>
+          </figcaption>
+          <div class="grafico__area"></div>
+        </figure>
+      </div>
+    </section>
+  </main>
+
+  <!-- Confirmações para leitores de tela e aviso visual temporário -->
+  <div class="anuncio" id="anuncio" role="status" aria-live="polite" aria-atomic="true"></div>
+
+  <!-- Diálogo de confirmação (Restaurar / Apagar) -->
+  <dialog class="dialogo" id="dialogo-confirmar" aria-labelledby="dialogo-titulo" aria-describedby="dialogo-texto">
+    <form method="dialog" class="dialogo__conteudo">
+      <h2 id="dialogo-titulo" class="dialogo__titulo"></h2>
+      <p id="dialogo-texto"></p>
+      <div class="dialogo__acoes">
+        <button type="submit" value="cancelar" class="botao botao--secundario">Cancelar</button>
+        <button type="submit" value="confirmar" class="botao botao--primario" id="dialogo-confirmar-botao">Confirmar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <footer class="rodape rodape--simples">
+    <div class="container rodape__interno">
+      <div class="rodape__marca">
+        <p class="rodape__nome" data-config="nomePlataforma">ReAlimenta</p>
+        <p class="rodape__aviso">Proposta acadêmica. A demonstração utiliza dados fictícios.</p>
+      </div>
+      <p class="rodape__institucional">
+        <span>UCSal</span><span>Ciência, Natureza e Sociedade</span><span>Profa. Janine Melo</span><span>Salvador – BA, 2026</span>
+      </p>
+      <a class="botao botao--claro" href="index.html">
+        <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-voltar"/></svg>
+        Voltar à apresentação
+      </a>
+    </div>
+  </footer>
+</body>
+</html>

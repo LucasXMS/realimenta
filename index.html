@@ -1,0 +1,933 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ReAlimenta — Desperdício de alimentos e soluções sustentáveis | UCSal</title>
+  <meta name="description" content="Projeto acadêmico da UCSal sobre desperdício de alimentos: o problema, os objetivos, a proposta da plataforma web ReAlimenta e a metodologia.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="pt_BR">
+  <meta property="og:site_name" content="ReAlimenta">
+  <meta property="og:title" content="ReAlimenta — Desperdício de alimentos e soluções sustentáveis">
+  <meta property="og:description" content="Proposta acadêmica da UCSal: uma plataforma web que conecta excedentes de alimentos a quem precisa e monitora o desperdício para preveni-lo na origem.">
+  <meta name="theme-color" content="#1F4D3A">
+  <link rel="icon" href="assets/icones/favicon.svg" type="image/svg+xml">
+
+  <!-- Fontes do Google: carregam sem travar a página. Sem internet, entram as fontes do sistema. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400..700&amp;family=Source+Sans+3:wght@400;600;700&amp;display=swap" media="print" onload="this.media='all'">
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/componentes.css">
+
+  <!-- Marca que o JavaScript está ativo (o CSS usa isso para as interações) -->
+  <script>document.documentElement.classList.add("js");</script>
+  <script defer src="js/config.js"></script>
+  <script defer src="js/main.js"></script>
+</head>
+<body>
+  <!-- Biblioteca de ícones (SVG inline, funciona offline) -->
+  <svg class="sprite" aria-hidden="true" focusable="false" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="i-agua" viewBox="0 0 24 24"><path d="M12 3.5c3.5 4.2 6 7.6 6 10.5a6 6 0 0 1-12 0c0-2.9 2.5-6.3 6-10.5z"/></symbol>
+    <symbol id="i-solo" viewBox="0 0 24 24"><path d="M3 13h18M5 17h14M8 21h8"/><path d="M12 13V8m0 0c-2.4 0-4-1.4-4.5-3.5 2.4 0 4 1.2 4.5 3.5zm0 0c2.4 0 4-1.4 4.5-3.5-2.4 0-4 1.2-4.5 3.5z"/></symbol>
+    <symbol id="i-energia" viewBox="0 0 24 24"><path d="M13 2 4.5 13.5H11L10 22l8.5-11.5H13L13 2z"/></symbol>
+    <symbol id="i-fertilizante" viewBox="0 0 24 24"><path d="M8 3.5h8L14.5 7c3 1.5 4.5 4.5 4.5 8a5 5 0 0 1-5 5h-4a5 5 0 0 1-5-5c0-3.5 1.5-6.5 4.5-8L8 3.5z"/><path d="M9.5 7h5M10 14h4"/></symbol>
+    <symbol id="i-agrotoxico" viewBox="0 0 24 24"><path d="M8 10h7v10a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1V10z"/><path d="M9.5 10V6.5h4L17 4"/><path d="M19 7.5h1.5M19 11h2M19 4.5h1"/></symbol>
+    <symbol id="i-embalagem" viewBox="0 0 24 24"><path d="M3.5 7.5 12 3l8.5 4.5v9L12 21l-8.5-4.5v-9z"/><path d="M3.5 7.5 12 12l8.5-4.5M12 12v9"/></symbol>
+    <symbol id="i-combustivel" viewBox="0 0 24 24"><path d="M5 21V5a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v16M3 21h14M7.5 7h5v4h-5z"/><path d="M15 9h2a2 2 0 0 1 2 2v6a1.5 1.5 0 0 0 3 0V8l-3-3"/></symbol>
+    <symbol id="i-alimento" viewBox="0 0 24 24"><path d="M12 7.5c-1-1.5-3-2.2-4.8-1.6C4.5 6.8 3.6 10 4.4 13.1 5.3 16.8 8 20.8 10.5 20.4c.7-.2 1-.5 1.5-.5s.8.3 1.5.5c2.5.4 5.2-3.6 6.1-7.3.8-3.1-.1-6.3-2.8-7.2-1.8-.6-3.8.1-4.8 1.6z"/><path d="M12 7.5c0-2.2 1-3.7 3-4.5"/></symbol>
+    <symbol id="i-metano" viewBox="0 0 24 24"><circle cx="8" cy="14" r="3"/><circle cx="15" cy="9" r="4"/><circle cx="17" cy="17" r="2"/><path d="M3 21h18"/></symbol>
+    <symbol id="i-clima" viewBox="0 0 24 24"><path d="M14 14.8V5a2 2 0 0 0-4 0v9.8a4 4 0 1 0 4 0z"/><path d="M12 9v8"/></symbol>
+    <symbol id="i-biodiversidade" viewBox="0 0 24 24"><path d="M5 19c0-8 5-14 15-15-1 10-7 15-15 15z"/><path d="M5 19 13 11M9.5 14.5H13M12 11.5V9"/></symbol>
+    <symbol id="i-poluicao" viewBox="0 0 24 24"><path d="M2 17c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5M2 21c2 0 2-1.5 4-1.5s2 1.5 4 1.5 2-1.5 4-1.5 2 1.5 4 1.5 2-1.5 4-1.5"/><path d="M12 3c2 2.4 3 4.2 3 5.5a3 3 0 0 1-6 0C9 7.2 10 5.4 12 3z"/></symbol>
+    <symbol id="i-industria" viewBox="0 0 24 24"><path d="M3 21V10l5 3v-3l5 3v-3l5 3V4h3v17H3z"/><path d="M7 17h2M12 17h2"/></symbol>
+    <symbol id="i-mercado" viewBox="0 0 24 24"><path d="M3 4h2l2.2 10.2a1.5 1.5 0 0 0 1.5 1.2h8.6a1.5 1.5 0 0 0 1.5-1.1L21 8H6"/><circle cx="9.5" cy="19.5" r="1.5"/><circle cx="17" cy="19.5" r="1.5"/></symbol>
+    <symbol id="i-restaurante" viewBox="0 0 24 24"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10"/><path d="M17 21V3c-2 1-3.5 4-3.5 8h3.5"/></symbol>
+    <symbol id="i-casa" viewBox="0 0 24 24"><path d="M3 11 12 4l9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
+    <symbol id="i-identificar" viewBox="0 0 24 24"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m15.5 15.5 5 5"/></symbol>
+    <symbol id="i-conectar" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2.5"/><circle cx="19" cy="6" r="2.5"/><circle cx="19" cy="18" r="2.5"/><path d="m7.3 11 9.4-4M7.3 13l9.4 4"/></symbol>
+    <symbol id="i-monitorar" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="m7 15 4-4 3 3 5-6"/></symbol>
+    <symbol id="i-educar" viewBox="0 0 24 24"><path d="M12 6.5C10 5 7 4.5 3 5v13c4-.5 7 0 9 1.5 2-1.5 5-2 9-1.5V5c-4-.5-7 0-9 1.5z"/><path d="M12 6.5v13"/></symbol>
+    <symbol id="i-viabilizar" viewBox="0 0 24 24"><ellipse cx="12" cy="6" rx="7" ry="3"/><path d="M5 6v6c0 1.7 3.1 3 7 3s7-1.3 7-3V6"/><path d="M5 12v6c0 1.7 3.1 3 7 3s7-1.3 7-3v-6"/></symbol>
+    <symbol id="i-avaliar" viewBox="0 0 24 24"><path d="M9 5H6a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1h-3"/><rect x="9" y="3" width="6" height="4" rx="1"/><path d="m9 13 2 2 4-4"/></symbol>
+    <symbol id="i-redistribuir" viewBox="0 0 24 24"><path d="M4 8h14l-3.5-3.5M20 16H6l3.5 3.5"/></symbol>
+    <symbol id="i-cadastrar" viewBox="0 0 24 24"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M12 8v8M8 12h8"/></symbol>
+    <symbol id="i-ver" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-confirmar" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="m8 12 3 3 5-6"/></symbol>
+    <symbol id="i-descarte" viewBox="0 0 24 24"><path d="M4 7h16M9 7V4h6v3M6 7l1 13h10l1-13"/><path d="M10 11v5M14 11v5"/></symbol>
+    <symbol id="i-balanca" viewBox="0 0 24 24"><path d="M6.5 9h11l2.5 11H4L6.5 9z"/><circle cx="12" cy="6" r="2.5"/><path d="M9.5 15.5h5"/></symbol>
+    <symbol id="i-pessoas" viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M16 14.2a5 5 0 0 1 5.5 5.8"/></symbol>
+    <symbol id="i-queda" viewBox="0 0 24 24"><path d="m3 7 6 6 4-4 8 8"/><path d="M21 11v6h-6"/></symbol>
+    <symbol id="i-local" viewBox="0 0 24 24"><path d="M12 21s-7-6.2-7-11.5a7 7 0 0 1 14 0C19 14.8 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.5"/></symbol>
+    <symbol id="i-calendario" viewBox="0 0 24 24"><rect x="3.5" y="5" width="17" height="15" rx="2"/><path d="M3.5 10h17M8 3v4M16 3v4"/></symbol>
+    <symbol id="i-sorriso" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M8.5 14.5a4.5 4.5 0 0 0 7 0M9 9.5h.01M15 9.5h.01"/></symbol>
+    <symbol id="i-ciclo" viewBox="0 0 24 24"><path d="M20 12a8 8 0 0 1-13.7 5.7M4 12a8 8 0 0 1 13.7-5.7"/><path d="M18 3v4h-4M6 21v-4h4"/></symbol>
+    <symbol id="i-seta" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5h.01"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-fechar" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-topo" viewBox="0 0 24 24"><path d="M12 19V5M6 11l6-6 6 6"/></symbol>
+    <symbol id="i-abrir" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"/></symbol>
+  </svg>
+
+  <a class="pular-conteudo" href="#conteudo">Pular para o conteúdo</a>
+
+  <!-- ============ CABEÇALHO FIXO ============ -->
+  <header class="cabecalho">
+    <div class="cabecalho__interno container">
+      <a class="marca" href="#inicio">
+        <svg class="marca__icone" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <circle cx="32" cy="32" r="30" fill="#1F4D3A"/>
+          <path d="M32 12c12 6 13 24 0 34C19 36 20 18 32 12z" fill="#9BC46A"/>
+          <path d="M32 18v30" stroke="#1F4D3A" stroke-width="3" stroke-linecap="round"/>
+          <path d="M14 44a20 20 0 0 0 30 6" fill="none" stroke="#E07A3F" stroke-width="4" stroke-linecap="round"/>
+        </svg>
+        <span class="marca__nome" data-config="nomePlataforma">ReAlimenta</span>
+      </a>
+
+      <nav class="nav" aria-label="Seções da página">
+        <button class="nav__botao" type="button" aria-expanded="false" aria-controls="nav-painel" hidden>
+          <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-menu"/></svg>
+          <span class="nav__botao-texto">Menu</span>
+        </button>
+        <div class="nav__painel" id="nav-painel">
+          <ul class="nav__lista">
+            <li><a class="nav__link" href="#problema">Problema</a></li>
+            <li><a class="nav__link" href="#ciclo">Ciclo</a></li>
+            <li><a class="nav__link" href="#objetivos">Objetivos</a></li>
+            <li><a class="nav__link" href="#plataforma">Plataforma</a></li>
+            <li><a class="nav__link" href="#metodologia">Metodologia</a></li>
+            <li><a class="nav__link" href="#avaliacao">Avaliação</a></li>
+          </ul>
+          <a class="botao botao--destaque nav__cta" href="prototipo.html">Ver demonstração</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="conteudo" tabindex="-1">
+
+    <!-- ============ 6.1 INÍCIO ============ -->
+    <section id="inicio" class="secao secao--inicio" aria-labelledby="titulo-inicio">
+      <div class="container inicio">
+        <div class="inicio__texto">
+          <p class="sobretitulo">Soluções Interdisciplinares para as Crises Ambientais</p>
+          <h1 id="titulo-inicio">Desperdício de alimentos e soluções sustentáveis para o aproveitamento de recursos</h1>
+          <p class="inicio__lead">
+            O desperdício de alimentos não é causado pela falta de comida, e sim pelo mau aproveitamento do que já foi produzido.
+            A equipe propõe a plataforma <strong data-config="nomePlataforma">ReAlimenta</strong>: uma ferramenta web que conecta
+            estabelecimentos com excedentes próprios para consumo a pessoas e instituições — e que monitora o desperdício para preveni-lo na origem.
+          </p>
+          <div class="grupo-botoes">
+            <a class="botao botao--primario" href="#problema">Entenda o problema</a>
+            <a class="botao botao--secundario" href="prototipo.html">Ver demonstração</a>
+          </div>
+          <p class="linha-institucional">
+            <span>UCSal</span><span>Ciência, Natureza e Sociedade</span><span>Profa. Janine Melo</span><span>Salvador – BA</span><span>outubro de 2026</span>
+          </p>
+        </div>
+
+        <!-- Ilustração própria: ciclo formado por folha, casca e grão -->
+        <div class="inicio__ilustracao" aria-hidden="true">
+          <svg viewBox="0 0 400 400" focusable="false">
+            <defs>
+              <marker id="seta-heroi" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                <path d="M0 0 10 5 0 10z" fill="#2E7D5B"/>
+              </marker>
+            </defs>
+            <circle cx="200" cy="200" r="176" fill="#F1EADB"/>
+            <circle cx="200" cy="200" r="92" fill="none" stroke="#D8D0BF" stroke-width="2" stroke-dasharray="4 8"/>
+            <g class="heroi__setas" fill="none" stroke="#2E7D5B" stroke-width="7" stroke-linecap="round" marker-end="url(#seta-heroi)">
+              <path d="M254.9 82.2A130 130 0 0 1 329.5 211.3"/>
+              <path d="M274.6 306.5A130 130 0 0 1 125.4 306.5"/>
+              <path d="M70.5 211.3A130 130 0 0 1 145.1 82.2"/>
+            </g>
+            <!-- folha -->
+            <g transform="translate(200 70)">
+              <circle r="42" fill="#FAF6EE" stroke="#1F4D3A" stroke-width="3"/>
+              <path d="M0-28C18-18 19 12 0 26-19 12-18-18 0-28z" fill="#9BC46A" stroke="#1F4D3A" stroke-width="3" stroke-linejoin="round"/>
+              <path d="M0-18V24M0 0 8-8M0 10-8 2" stroke="#1F4D3A" stroke-width="2.5" stroke-linecap="round" fill="none"/>
+            </g>
+            <!-- casca (fatia de laranja) -->
+            <g transform="translate(312.6 265)">
+              <circle r="42" fill="#FAF6EE" stroke="#1F4D3A" stroke-width="3"/>
+              <circle r="27" fill="#E07A3F" stroke="#1F4D3A" stroke-width="3"/>
+              <circle r="19" fill="#F6C9A8"/>
+              <path d="M0-19V19M-16.5-9.5 16.5 9.5M-16.5 9.5 16.5-9.5" stroke="#E07A3F" stroke-width="2.5" stroke-linecap="round"/>
+            </g>
+            <!-- grão (espiga) -->
+            <g transform="translate(87.4 265)">
+              <circle r="42" fill="#FAF6EE" stroke="#1F4D3A" stroke-width="3"/>
+              <path d="M0 30V-26" stroke="#1F4D3A" stroke-width="3" stroke-linecap="round"/>
+              <g fill="#D4A23C" stroke="#1F4D3A" stroke-width="2">
+                <ellipse cx="-7" cy="-16" rx="5" ry="9" transform="rotate(-30 -7 -16)"/>
+                <ellipse cx="7" cy="-16" rx="5" ry="9" transform="rotate(30 7 -16)"/>
+                <ellipse cx="-7" cy="-1" rx="5" ry="9" transform="rotate(-30 -7 -1)"/>
+                <ellipse cx="7" cy="-1" rx="5" ry="9" transform="rotate(30 7 -1)"/>
+                <ellipse cx="-7" cy="14" rx="5" ry="9" transform="rotate(-30 -7 14)"/>
+                <ellipse cx="7" cy="14" rx="5" ry="9" transform="rotate(30 7 14)"/>
+              </g>
+            </g>
+            <text x="200" y="192" text-anchor="middle" class="heroi__texto">resíduo</text>
+            <text x="200" y="222" text-anchor="middle" class="heroi__texto heroi__texto--destaque">vira recurso</text>
+          </svg>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 6.2 O PROBLEMA ============ -->
+    <section id="problema" class="secao" aria-labelledby="titulo-problema">
+      <div class="container">
+        <header class="secao__cabecalho">
+          <p class="sobretitulo">O problema</p>
+          <h2 id="titulo-problema">Comida que sobra, gente que falta</h2>
+        </header>
+
+        <h3 class="subtitulo">Os números</h3>
+        <ul class="numeros" role="list">
+          <li class="numero-card revelar">
+            <p class="numero-card__valor"><span class="contador" data-contador="1.05" data-decimais="2">1,05</span> <span class="numero-card__unidade">bilhão de toneladas</span></p>
+            <p class="numero-card__texto">de alimentos desperdiçadas no mundo em 2022</p>
+            <p class="citacao">(PNUMA, 2024a)</p>
+          </li>
+          <li class="numero-card revelar">
+            <p class="numero-card__valor"><span class="contador" data-contador="132">132</span> <span class="numero-card__unidade">kg</span></p>
+            <p class="numero-card__texto">de alimento desperdiçado por pessoa, em média, no mesmo ano</p>
+            <p class="citacao">(PNUMA, 2024a)</p>
+          </li>
+          <li class="numero-card numero-card--fome revelar">
+            <p class="numero-card__valor"><span class="contador" data-contador="783">783</span> <span class="numero-card__unidade">milhões</span></p>
+            <p class="numero-card__texto">de pessoas afetadas pela fome em 2022</p>
+            <p class="citacao">(PNUMA, 2024a)</p>
+          </li>
+          <li class="numero-card numero-card--fome revelar">
+            <p class="numero-card__valor">1/3</p>
+            <p class="numero-card__texto">da população mundial enfrentou insegurança alimentar</p>
+            <p class="citacao">(PNUMA, 2024a)</p>
+          </li>
+          <li class="numero-card numero-card--largo revelar">
+            <p class="numero-card__valor"><span class="contador" data-contador="8">8</span>% a <span class="contador" data-contador="10">10</span>%</p>
+            <p class="numero-card__texto">das emissões globais de gases de efeito estufa estão associadas à produção e à decomposição de alimentos que terminam no lixo</p>
+            <p class="citacao">(PNUMA, 2024b)</p>
+          </li>
+        </ul>
+
+        <aside class="nota" aria-label="Nota sobre a comparação entre relatórios">
+          <svg class="icone nota__icone" aria-hidden="true" focusable="false"><use href="#i-info"/></svg>
+          <div>
+            <p class="nota__titulo">Comparar com cuidado</p>
+            <p>
+              A primeira edição do relatório apontou cerca de <strong>931 milhões de toneladas</strong> desperdiçadas em 2019 (PNUMA, 2021).
+              As duas estimativas <strong>não são diretamente comparáveis</strong>: a edição de 2024 usou uma base de dados muito mais ampla.
+              Mais do que um aumento, elas mostram que, a cada levantamento, o problema se revela maior do que se imaginava.
+            </p>
+          </div>
+        </aside>
+
+        <div class="duas-colunas">
+          <div class="bloco-texto">
+            <h3>Além da comida perdida</h3>
+            <p>
+              O desperdício vem acompanhado da perda da natureza e da poluição, impulsiona as mudanças climáticas
+              e traz prejuízos à economia global <span class="citacao">(PNUMA, 2024a)</span>.
+            </p>
+          </div>
+          <div class="cartao cartao--alerta">
+            <svg class="icone cartao__icone" aria-hidden="true" focusable="false"><use href="#i-metano"/></svg>
+            <h3>No aterro e no lixão</h3>
+            <p>
+              A decomposição dos resíduos orgânicos libera <strong>metano</strong>, gás com potencial de aquecimento muitas vezes
+              superior ao do dióxido de carbono (CO<sub>2</sub>), e produz <strong>chorume</strong>, que contamina solos e lençóis freáticos.
+            </p>
+          </div>
+        </div>
+
+        <!-- Recursos "embutidos" no alimento -->
+        <div class="recursos">
+          <div class="recursos__texto">
+            <h3>O que vai para o lixo junto com o alimento</h3>
+            <p>
+              Água, solo, energia, fertilizantes, agrotóxicos, embalagens e combustíveis empregados ao longo de toda a cadeia produtiva:
+              recursos consumidos sem cumprir função alguma <span class="citacao">(PNUMA, 2024b)</span>.
+            </p>
+          </div>
+          <div class="recursos__roda">
+            <div class="recursos__centro">
+              <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-alimento"/></svg>
+              <span>Alimento descartado</span>
+            </div>
+            <ul class="recursos__lista" aria-label="Recursos perdidos com o alimento">
+              <li style="--x:50%;--y:14%"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-agua"/></svg>Água</li>
+              <li style="--x:78%;--y:27.6%"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-solo"/></svg>Solo</li>
+              <li style="--x:85%;--y:58%"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-energia"/></svg>Energia</li>
+              <li style="--x:65.6%;--y:82.4%"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-fertilizante"/></svg>Fertilizantes</li>
+              <li style="--x:34.4%;--y:82.4%"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-agrotoxico"/></svg>Agrotóxicos</li>
+              <li style="--x:15%;--y:58%"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-embalagem"/></svg>Embalagens</li>
+              <li style="--x:22%;--y:27.6%"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-combustivel"/></svg>Combustíveis</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3 class="subtitulo">Três eixos da crise ambiental atingidos ao mesmo tempo</h3>
+        <ul class="eixos" role="list">
+          <li class="eixo revelar">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-clima"/></svg>
+            <span>Mudança climática</span>
+          </li>
+          <li class="eixo revelar">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-biodiversidade"/></svg>
+            <span>Perda de biodiversidade</span>
+          </li>
+          <li class="eixo revelar">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-poluicao"/></svg>
+            <span>Poluição dos ecossistemas</span>
+          </li>
+        </ul>
+
+        <!-- A contradição social (no mundo e no Brasil) -->
+        <div class="contradicao revelar">
+          <h3>Uma contradição social</h3>
+          <p>
+            Além dos impactos ambientais, todo esse alimento é descartado enquanto <strong>783 milhões de pessoas</strong>
+            passam fome no mundo <span class="citacao">(PNUMA, 2024a)</span>.
+          </p>
+          <p>
+            A contradição fica ainda mais evidente no Brasil, que está entre os maiores produtores de alimentos do mundo e,
+            mesmo assim, gera:
+          </p>
+          <div class="contradicao__numeros">
+            <div class="contradicao__item contradicao__item--lixo">
+              <p class="contradicao__prefixo">cerca de</p>
+              <p class="contradicao__valor"><span class="contador" data-contador="20">20</span> milhões</p>
+              <p class="contradicao__texto">de toneladas de resíduos alimentares por ano</p>
+            </div>
+            <p class="contradicao__versus">enquanto</p>
+            <div class="contradicao__item contradicao__item--fome">
+              <p class="contradicao__prefixo">aproximadamente</p>
+              <p class="contradicao__valor"><span class="contador" data-contador="27">27</span> milhões</p>
+              <p class="contradicao__texto">de brasileiros vivem em insegurança alimentar</p>
+            </div>
+          </div>
+          <p class="citacao">(PNUMA, 2024b)</p>
+        </div>
+
+        <!-- O desperdício em toda a cadeia -->
+        <h3 class="subtitulo">O desperdício está em toda a cadeia</h3>
+        <p class="bloco-texto">
+          O desperdício não se concentra em um único ponto: ele se distribui por toda a cadeia, da produção industrial
+          até a mesa das nossas casas.
+        </p>
+        <ol class="cadeia">
+          <li class="cadeia__etapa">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-industria"/></svg>
+            <span>Indústria e processamento</span>
+          </li>
+          <li class="cadeia__etapa">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-mercado"/></svg>
+            <span>Supermercados, feiras e pequenos comércios</span>
+          </li>
+          <li class="cadeia__etapa">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-restaurante"/></svg>
+            <span>Restaurantes</span>
+          </li>
+          <li class="cadeia__etapa">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-casa"/></svg>
+            <span>Casas</span>
+          </li>
+        </ol>
+        <details class="saiba-mais">
+          <summary>Saiba mais: um exemplo da indústria</summary>
+          <p>
+            Na indústria, o processamento de frutas e hortaliças descarta cascas, talos, sementes e bagaços ricos em fibras
+            e compostos bioativos, que poderiam ser reaproveitados na produção de novos alimentos
+            <span class="citacao">(PEREIRA; FIRMO; COUTINHO, 2022; LEAL et al., 2025)</span>.
+          </p>
+        </details>
+
+        <div class="destaque destaque--verde">
+          <h3>O conhecimento já existe</h3>
+          <p>
+            As pesquisas mostram que é possível transformar resíduo em ingrediente, que as técnicas de aproveitamento integral
+            funcionam e que trazem ganho nutricional e redução de custo.
+          </p>
+          <p>
+            O que falta é esse conhecimento sair das publicações científicas e das cozinhas industriais e chegar às casas,
+            às feiras e aos pequenos comércios, onde o consumo final acontece.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 6.3 DA LINHA AO CICLO ============ -->
+    <section id="ciclo" class="secao secao--alternada" aria-labelledby="titulo-ciclo">
+      <div class="container">
+        <header class="secao__cabecalho">
+          <p class="sobretitulo">Da linha ao ciclo</p>
+          <h2 id="titulo-ciclo">O que seria resíduo pode voltar como recurso</h2>
+          <p class="secao__intro">
+            A <strong>economia circular</strong> propõe substituir o modelo de extrair → produzir → descartar por ciclos em que
+            aquilo que seria resíduo volta para a cadeia como recurso <span class="citacao">(DUARTE et al., 2021)</span>.
+          </p>
+        </header>
+
+        <figure class="modelo" data-modelo="linear">
+          <!-- Alternador: aparece só com JavaScript ativo -->
+          <div class="alternador" role="group" aria-label="Escolha o modelo mostrado no diagrama" hidden>
+            <button type="button" class="alternador__botao" data-modelo-botao="linear" aria-pressed="true">Modelo linear</button>
+            <button type="button" class="alternador__botao" data-modelo-botao="circular" aria-pressed="false">Economia circular</button>
+          </div>
+
+          <div class="modelo__desenho">
+            <svg class="modelo__svg" viewBox="0 0 640 360" aria-hidden="true" focusable="false">
+              <defs>
+                <marker id="seta-modelo-verde" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                  <path d="M0 0 10 5 0 10z" fill="#2E7D5B"/>
+                </marker>
+                <marker id="seta-modelo-cinza" viewBox="0 0 10 10" refX="7" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse">
+                  <path d="M0 0 10 5 0 10z" fill="#4A5650"/>
+                </marker>
+              </defs>
+
+              <!-- Setas do modelo linear -->
+              <g class="modelo__setas modelo__setas--linear" fill="none" stroke="#4A5650" stroke-width="5" stroke-linecap="round" marker-end="url(#seta-modelo-cinza)">
+                <path d="M134 180H182"/>
+                <path d="M294 180H342"/>
+                <path d="M454 180H502"/>
+              </g>
+              <text class="modelo__rotulo modelo__rotulo--linear" x="560" y="262" text-anchor="middle">fim da linha: lixo</text>
+
+              <!-- Setas da economia circular -->
+              <g class="modelo__setas modelo__setas--circular" fill="none" stroke="#2E7D5B" stroke-width="5" stroke-linecap="round" marker-end="url(#seta-modelo-verde)">
+                <path d="M409.2 69.6A190 125 0 0 1 487.8 121.3"/>
+                <path d="M487.8 238.7A190 125 0 0 1 409.2 290.4"/>
+                <path d="M230.8 290.4A190 125 0 0 1 152.2 238.7"/>
+                <path d="M152.2 121.3A190 125 0 0 1 230.8 69.6"/>
+              </g>
+              <text class="modelo__rotulo modelo__rotulo--circular" x="320" y="172" text-anchor="middle">o resíduo volta</text>
+              <text class="modelo__rotulo modelo__rotulo--circular" x="320" y="198" text-anchor="middle">como recurso</text>
+
+              <!-- Etapas (se movem entre a linha e o ciclo) -->
+              <g class="modelo__no modelo__no--1">
+                <circle r="48"/>
+                <text y="6" text-anchor="middle">Extrair</text>
+              </g>
+              <g class="modelo__no modelo__no--2">
+                <circle r="48"/>
+                <text y="6" text-anchor="middle">Produzir</text>
+              </g>
+              <g class="modelo__no modelo__no--3">
+                <circle r="48"/>
+                <text y="6" text-anchor="middle">Consumir</text>
+              </g>
+              <g class="modelo__no modelo__no--4">
+                <circle r="48"/>
+                <text class="modelo__texto-linear" y="6" text-anchor="middle">Descartar</text>
+                <text class="modelo__texto-circular" y="6" text-anchor="middle">Recuperar</text>
+              </g>
+            </svg>
+          </div>
+
+          <figcaption class="modelo__descricao" aria-live="polite">
+            <p data-descricao="linear"><strong>Modelo linear:</strong> extrair → produzir → consumir → descartar. As setas seguem em linha reta e terminam no lixo.</p>
+            <p data-descricao="circular"><strong>Economia circular:</strong> extrair → produzir → consumir → recuperar → e de volta ao início. As setas fecham um ciclo, e o que seria resíduo volta para a cadeia como recurso.</p>
+          </figcaption>
+        </figure>
+
+        <div class="duas-colunas duas-colunas--centro">
+          <div class="cartao cartao--meta">
+            <p class="cartao__etiqueta">Agenda 2030</p>
+            <h3>Meta 12.3</h3>
+            <!-- REVISAR: o artigo da equipe também não traz a citação desta meta. Se a equipe tiver a fonte, acrescente aqui. -->
+            <p>Reduzir pela metade o desperdício de alimentos por pessoa até 2030.</p>
+          </div>
+
+          <figure class="pergunta">
+            <p class="pergunta__etiqueta">Pergunta norteadora</p>
+            <blockquote class="pergunta__texto">
+              <p>Como transformar o desperdício de alimentos em aproveitamento de recursos, por meio de uma solução que seja viável na prática, financeiramente sustentável, replicável em outros contextos e capaz de envolver e educar a comunidade?</p>
+            </blockquote>
+          </figure>
+        </div>
+
+        <ul class="selos" role="list" aria-label="Critérios da pergunta norteadora">
+          <li class="selo"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-confirmar"/></svg>Viável na prática</li>
+          <li class="selo"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-viabilizar"/></svg>Financeiramente sustentável</li>
+          <li class="selo"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-ciclo"/></svg>Replicável</li>
+          <li class="selo"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-educar"/></svg>Envolve e educa a comunidade</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ 6.4 OBJETIVOS ============ -->
+    <section id="objetivos" class="secao" aria-labelledby="titulo-objetivos">
+      <div class="container">
+        <header class="secao__cabecalho">
+          <p class="sobretitulo">Objetivos</p>
+          <h2 id="titulo-objetivos">Aonde queremos chegar</h2>
+        </header>
+
+        <div class="destaque destaque--geral">
+          <p class="destaque__etiqueta">Objetivo geral</p>
+          <p class="destaque__texto">
+            Promover a conscientização sobre o desperdício de alimentos, incentivando o desenvolvimento e a adoção de práticas
+            sustentáveis para o melhor aproveitamento dos alimentos e dos recursos disponíveis, contribuindo para a redução do
+            desperdício e dos impactos ambientais e sociais.
+          </p>
+        </div>
+
+        <h3 class="subtitulo">Objetivos específicos</h3>
+        <p class="texto-suave dica-acordeao">Selecione um objetivo para ver o texto completo e as fontes.</p>
+        <ul class="objetivos" role="list" data-acordeao>
+          <li class="objetivo">
+            <h4 class="objetivo__titulo" data-acordeao-titulo>
+              <svg class="icone objetivo__icone" aria-hidden="true" focusable="false"><use href="#i-identificar"/></svg>
+              <span>Identificar</span>
+            </h4>
+            <div class="objetivo__painel" data-acordeao-painel>
+              <p>
+                Identificar os principais fatores e situações relacionados ao desperdício de alimentos em estabelecimentos como
+                supermercados, feiras, restaurantes e pequenos comércios, considerando os tipos de alimentos mais descartados, as
+                quantidades envolvidas e os períodos em que essas perdas ocorrem com maior frequência, a fim de compreender melhor
+                os padrões associados ao problema.
+              </p>
+              <p class="citacao">Fontes: (FAO, 2019; PORPINO et al., 2018)</p>
+            </div>
+          </li>
+          <li class="objetivo">
+            <h4 class="objetivo__titulo" data-acordeao-titulo>
+              <svg class="icone objetivo__icone" aria-hidden="true" focusable="false"><use href="#i-conectar"/></svg>
+              <span>Conectar</span>
+            </h4>
+            <div class="objetivo__painel" data-acordeao-painel>
+              <p>
+                Propor o desenvolvimento de uma plataforma digital que possibilite o cadastro de alimentos excedentes ainda próprios
+                para consumo, facilitando a conexão entre os estabelecimentos que possuem esses alimentos e pessoas ou instituições
+                interessadas em recebê-los, contribuindo para ampliar o aproveitamento desses recursos.
+              </p>
+              <p class="citacao">Fontes: (BRASIL, 2020; HARVEY et al., 2020)</p>
+            </div>
+          </li>
+          <li class="objetivo">
+            <h4 class="objetivo__titulo" data-acordeao-titulo>
+              <svg class="icone objetivo__icone" aria-hidden="true" focusable="false"><use href="#i-monitorar"/></svg>
+              <span>Monitorar</span>
+            </h4>
+            <div class="objetivo__painel" data-acordeao-painel>
+              <p>
+                Propor mecanismos de registro e monitoramento do desperdício de alimentos dentro da plataforma, permitindo a coleta e
+                a organização de dados sobre os produtos descartados, suas quantidades e a frequência das perdas, de modo a auxiliar
+                na identificação de padrões e na prevenção de novos desperdícios.
+              </p>
+              <p class="citacao">Fonte: (FOOD LOSS AND WASTE PROTOCOL, 2016)</p>
+            </div>
+          </li>
+          <li class="objetivo">
+            <h4 class="objetivo__titulo" data-acordeao-titulo>
+              <svg class="icone objetivo__icone" aria-hidden="true" focusable="false"><use href="#i-educar"/></svg>
+              <span>Educar</span>
+            </h4>
+            <div class="objetivo__painel" data-acordeao-painel>
+              <p>
+                Desenvolver ações e conteúdos educativos, integrados à plataforma, voltados a estabelecimentos e consumidores, com
+                orientações sobre armazenamento adequado, planejamento de compras e aproveitamento integral dos alimentos, como
+                cascas, talos e sementes, de modo a estimular a mudança de hábitos e reduzir o desperdício na origem.
+              </p>
+              <p class="citacao">Fontes: (PORPINO et al., 2018; PEREIRA; FIRMO; COUTINHO, 2022)</p>
+            </div>
+          </li>
+          <li class="objetivo">
+            <h4 class="objetivo__titulo" data-acordeao-titulo>
+              <svg class="icone objetivo__icone" aria-hidden="true" focusable="false"><use href="#i-viabilizar"/></svg>
+              <span>Viabilizar</span>
+            </h4>
+            <div class="objetivo__painel" data-acordeao-painel>
+              <p>
+                Analisar a viabilidade de implementação e manutenção da plataforma, identificando possíveis formas de financiamento,
+                parcerias e benefícios econômicos para os estabelecimentos participantes, como a redução de custos com descarte, a fim
+                de garantir a continuidade da proposta.
+              </p>
+              <p class="citacao">Fonte: (HANSON; MITCHELL, 2017)</p>
+            </div>
+          </li>
+          <li class="objetivo">
+            <h4 class="objetivo__titulo" data-acordeao-titulo>
+              <svg class="icone objetivo__icone" aria-hidden="true" focusable="false"><use href="#i-avaliar"/></svg>
+              <span>Avaliar</span>
+            </h4>
+            <div class="objetivo__painel" data-acordeao-painel>
+              <p>
+                Avaliar os resultados da aplicação da solução por meio de indicadores como a quantidade, em quilos, de alimentos
+                redistribuídos, o percentual de redução do descarte ao longo do período analisado e o número de estabelecimentos e
+                instituições participantes, identificando também possíveis melhorias e formas de adaptação da proposta para
+                diferentes estabelecimentos e contextos.
+              </p>
+              <p class="citacao">Fontes: (PNUMA, 2024a; FOOD LOSS AND WASTE PROTOCOL, 2016)</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ============ 6.5 A PLATAFORMA PROPOSTA ============ -->
+    <section id="plataforma" class="secao secao--alternada" aria-labelledby="titulo-plataforma">
+      <div class="container">
+        <header class="secao__cabecalho">
+          <p class="sobretitulo">A plataforma proposta</p>
+          <h2 id="titulo-plataforma"><span data-config="nomePlataforma">ReAlimenta</span>: redistribuir, monitorar e educar</h2>
+        </header>
+
+        <div class="duas-colunas">
+          <div class="bloco-texto">
+            <h3>O que é</h3>
+            <p>
+              Uma plataforma digital, acessível por página web, que conecta estabelecimentos com excedentes alimentares próprios
+              para consumo a pessoas ou instituições previamente cadastradas para recebê-los.
+            </p>
+          </div>
+          <div class="bloco-texto">
+            <h3>Por que uma solução tecnológica</h3>
+            <p>
+              Ela ataca uma das principais dificuldades do problema — a falta de comunicação e de organização entre quem tem
+              alimentos excedentes e quem poderia utilizá-los — e torna mais eficiente identificar, disponibilizar e destinar
+              alimentos ainda próprios para consumo.
+            </p>
+          </div>
+        </div>
+
+        <div class="destaque destaque--diferencial revelar">
+          <p class="destaque__etiqueta">O diferencial</p>
+          <p class="destaque__texto">
+            Já existem aplicativos de redistribuição de alimentos. O diferencial desta proposta é
+            <strong>monitorar o desperdício gerado pelos estabelecimentos</strong> — registrar quais alimentos são descartados,
+            em que quantidade, em que períodos e onde.
+          </p>
+          <p>
+            Assim, a plataforma não é apenas uma ferramenta de redistribuição de excedentes, mas também de monitoramento e
+            prevenção do desperdício.
+          </p>
+        </div>
+
+        <h3 class="subtitulo">Três frentes</h3>
+        <ul class="frentes" role="list">
+          <li class="cartao frente revelar">
+            <svg class="icone cartao__icone" aria-hidden="true" focusable="false"><use href="#i-redistribuir"/></svg>
+            <h4>Redistribuição</h4>
+            <p>Cadastro de excedentes e conexão com pessoas e instituições cadastradas.</p>
+          </li>
+          <li class="cartao frente frente--monitoramento revelar">
+            <svg class="icone cartao__icone" aria-hidden="true" focusable="false"><use href="#i-monitorar"/></svg>
+            <h4>Monitoramento</h4>
+            <p>Registro dos descartes e painel de dados para descobrir onde, quando e em que condições as perdas acontecem.</p>
+          </li>
+          <li class="cartao frente revelar">
+            <svg class="icone cartao__icone" aria-hidden="true" focusable="false"><use href="#i-educar"/></svg>
+            <h4>Educação</h4>
+            <p>Conteúdos para estabelecimentos e consumidores sobre armazenamento, planejamento de compras e aproveitamento integral.</p>
+          </li>
+        </ul>
+
+        <h3 class="subtitulo">Como funciona</h3>
+        <ol class="fluxo">
+          <li class="fluxo__passo">
+            <span class="fluxo__icone"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-cadastrar"/></svg></span>
+            <p>O estabelecimento cadastra um excedente próprio para consumo.</p>
+          </li>
+          <li class="fluxo__passo">
+            <span class="fluxo__icone"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-ver"/></svg></span>
+            <p>Pessoas e instituições cadastradas veem o que está disponível e solicitam a retirada.</p>
+          </li>
+          <li class="fluxo__passo">
+            <span class="fluxo__icone"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-confirmar"/></svg></span>
+            <p>A retirada é confirmada e o alimento ganha um novo destino.</p>
+          </li>
+          <li class="fluxo__passo fluxo__passo--descarte">
+            <span class="fluxo__icone"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-descarte"/></svg></span>
+            <p>O que não pôde ser aproveitado é registrado como descarte: o quê, quanto, quando e por quê.</p>
+          </li>
+          <li class="fluxo__passo">
+            <span class="fluxo__icone"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-monitorar"/></svg></span>
+            <p>O painel transforma esses registros em padrões e orienta a prevenção.</p>
+          </li>
+        </ol>
+
+        <div class="duas-colunas">
+          <aside class="destaque destaque--exemplo" aria-label="Exemplo do trabalho">
+            <p class="destaque__etiqueta">Exemplo do trabalho</p>
+            <p>
+              Se os dados mostrarem que um estabelecimento descarta grandes quantidades em dias específicos da semana, essa
+              informação pode ser usada para revisar a quantidade produzida, ajustar o planejamento de compras e prevenir a
+              formação de excedentes.
+            </p>
+          </aside>
+          <div class="bloco-texto">
+            <h3>Prolongar o ciclo</h3>
+            <p>
+              O alimento que seria descartado volta a ser usado, prolongando seu ciclo de consumo e evitando o desperdício da água,
+              do solo, da energia, dos insumos agrícolas, das embalagens e dos combustíveis empregados na produção
+              <span class="citacao">(PNUMA, 2024b)</span>.
+            </p>
+          </div>
+        </div>
+
+        <h3 class="subtitulo">Como a proposta responde à pergunta norteadora</h3>
+        <ul class="respostas" role="list">
+          <li class="resposta">
+            <span class="selo"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-confirmar"/></svg>Viável na prática</span>
+            <p>Acesso por página web, com funcionalidades definidas a partir do levantamento com os estabelecimentos.</p>
+          </li>
+          <li class="resposta">
+            <span class="selo"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-viabilizar"/></svg>Financeiramente sustentável</span>
+            <p>Análise de financiamento, parcerias e benefícios como a redução de custos com descarte <span class="citacao">(HANSON; MITCHELL, 2017)</span>.</p>
+          </li>
+          <li class="resposta">
+            <span class="selo"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-ciclo"/></svg>Replicável</span>
+            <p>Indicadores e identificação de adaptações para diferentes estabelecimentos e contextos.</p>
+          </li>
+          <li class="resposta">
+            <span class="selo"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-educar"/></svg>Envolve e educa</span>
+            <p>Conteúdos educativos integrados, para estabelecimentos e consumidores.</p>
+          </li>
+        </ul>
+
+        <!-- REVISAR: todas as dicas abaixo são exemplos escritos para o site. A equipe deve validar antes da apresentação. -->
+        <h3 class="subtitulo" id="conteudo-educativo">Conteúdo educativo</h3>
+        <p class="texto-suave">Exemplos de conteúdo que a plataforma ofereceria a estabelecimentos e consumidores:</p>
+        <div class="acordeao-educativo" data-acordeao>
+          <div class="tema">
+            <h4 class="tema__titulo" data-acordeao-titulo>
+              <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-embalagem"/></svg>
+              <span>Armazenamento adequado</span>
+            </h4>
+            <div class="tema__painel" data-acordeao-painel>
+              <ul>
+                <li>Siga a regra “primeiro que vence, primeiro que sai”: ao guardar compras novas, traga as mais antigas para a frente.</li>
+                <li>Etiquete potes de sobras e preparos com a data em que foram feitos.</li>
+                <li>Guarde folhas e verduras secas e bem embaladas, em recipientes fechados.</li>
+                <li>Separe as frutas muito maduras e use-as logo em vitaminas, doces ou bolos.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tema">
+            <h4 class="tema__titulo" data-acordeao-titulo>
+              <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-calendario"/></svg>
+              <span>Planejamento de compras</span>
+            </h4>
+            <div class="tema__painel" data-acordeao-painel>
+              <ul>
+                <li>Antes de comprar, confira o que já existe na geladeira e na despensa.</li>
+                <li>Faça a lista a partir das refeições previstas para a semana.</li>
+                <li>Prefira comprar perecíveis em quantidades menores e com mais frequência.</li>
+                <li>Nos estabelecimentos, use o histórico de descartes para ajustar pedidos e produção nos dias de maior sobra.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="tema">
+            <h4 class="tema__titulo" data-acordeao-titulo>
+              <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-biodiversidade"/></svg>
+              <span>Aproveitamento integral (cascas, talos e sementes)</span>
+            </h4>
+            <div class="tema__painel" data-acordeao-painel>
+              <ul>
+                <li>Talos e folhas de verduras podem entrar em refogados, sopas, recheios e omeletes.</li>
+                <li>Cascas de frutas bem lavadas podem virar chás, doces ou bolos.</li>
+                <li>Sementes de abóbora podem ser lavadas, secas e assadas como petisco.</li>
+                <li>Pão amanhecido vira torrada, farinha de rosca ou pudim.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <p class="chamada">
+          <a class="botao botao--primario botao--grande" href="prototipo.html">
+            Veja a plataforma funcionando com dados fictícios
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-seta"/></svg>
+          </a>
+        </p>
+      </div>
+    </section>
+
+    <!-- ============ 6.6 METODOLOGIA ============ -->
+    <section id="metodologia" class="secao" aria-labelledby="titulo-metodologia">
+      <div class="container">
+        <header class="secao__cabecalho">
+          <p class="sobretitulo">Metodologia</p>
+          <h2 id="titulo-metodologia">Seis etapas que formam um ciclo</h2>
+          <p class="secao__intro">
+            A metodologia tem como foco o desenvolvimento de uma solução tecnológica voltada à prevenção, ao monitoramento e à
+            redução do desperdício de alimentos. As etapas formam um <strong>ciclo</strong>: a avaliação realimenta melhorias,
+            como na economia circular.
+          </p>
+        </header>
+
+        <div class="metodologia" data-metodologia>
+          <ol class="etapas">
+            <li class="etapa" id="etapa-1" data-curto="Levantamento">
+              <div class="etapa__cabeca">
+                <span class="etapa__numero" aria-hidden="true">1</span>
+                <h3 class="etapa__titulo"><span class="visualmente-oculto">Etapa 1: </span>Levantamento inicial</h3>
+              </div>
+              <span class="selo-status selo-status--planejada" data-status-etapa="levantamento"><span class="visualmente-oculto">Status: </span><span class="selo-status__texto">Planejada</span></span>
+              <p class="etapa__descricao">
+                Serão aplicados questionários ou formulários aos estabelecimentos participantes para identificar os principais
+                alimentos descartados, as quantidades aproximadas e os motivos do desperdício. Essas informações vão ajudar a definir
+                as necessidades dos estabelecimentos e as funcionalidades da plataforma.
+              </p>
+            </li>
+            <li class="etapa" id="etapa-2" data-curto="Plataforma web">
+              <div class="etapa__cabeca">
+                <span class="etapa__numero" aria-hidden="true">2</span>
+                <h3 class="etapa__titulo"><span class="visualmente-oculto">Etapa 2: </span>Desenvolvimento da plataforma web</h3>
+              </div>
+              <span class="selo-status selo-status--planejada" data-status-etapa="desenvolvimento"><span class="visualmente-oculto">Status: </span><span class="selo-status__texto">Planejada</span></span>
+              <p class="etapa__descricao">
+                A plataforma será construída de acordo com a realidade dos usuários e com as dificuldades no gerenciamento de
+                excedentes: cadastro de estabelecimentos, de pessoas e instituições receptoras e de excedentes próprios para consumo.
+              </p>
+            </li>
+            <li class="etapa" id="etapa-3" data-curto="Redistribuição">
+              <div class="etapa__cabeca">
+                <span class="etapa__numero" aria-hidden="true">3</span>
+                <h3 class="etapa__titulo"><span class="visualmente-oculto">Etapa 3: </span>Redistribuição e registro do desperdício</h3>
+              </div>
+              <span class="selo-status selo-status--planejada" data-status-etapa="redistribuicaoRegistro"><span class="visualmente-oculto">Status: </span><span class="selo-status__texto">Planejada</span></span>
+              <p class="etapa__descricao">
+                Os excedentes serão disponibilizados e destinados; os descartes serão registrados com alimento, quantidade, período e estabelecimento.
+              </p>
+            </li>
+            <li class="etapa" id="etapa-4" data-curto="Análise">
+              <div class="etapa__cabeca">
+                <span class="etapa__numero" aria-hidden="true">4</span>
+                <h3 class="etapa__titulo"><span class="visualmente-oculto">Etapa 4: </span>Análise dos dados e prevenção</h3>
+              </div>
+              <span class="selo-status selo-status--planejada" data-status-etapa="analisePrevencao"><span class="visualmente-oculto">Status: </span><span class="selo-status__texto">Planejada</span></span>
+              <p class="etapa__descricao">
+                Identificar onde, quando e em que condições as perdas acontecem e direcionar as ações aos pontos de maior ocorrência,
+                como revisar a produção e o planejamento de compras.
+              </p>
+            </li>
+            <li class="etapa" id="etapa-5" data-curto="Experiência">
+              <div class="etapa__cabeca">
+                <span class="etapa__numero" aria-hidden="true">5</span>
+                <h3 class="etapa__titulo"><span class="visualmente-oculto">Etapa 5: </span>Avaliação da experiência dos usuários</h3>
+              </div>
+              <span class="selo-status selo-status--planejada" data-status-etapa="avaliacaoExperiencia"><span class="visualmente-oculto">Status: </span><span class="selo-status__texto">Planejada</span></span>
+              <p class="etapa__descricao">
+                Observar a facilidade de acesso, a eficiência na divulgação dos alimentos disponíveis e as dificuldades no processo de
+                redistribuição, para propor ajustes que tornem a ferramenta mais acessível e eficiente.
+              </p>
+            </li>
+            <li class="etapa" id="etapa-6" data-curto="Indicadores">
+              <div class="etapa__cabeca">
+                <span class="etapa__numero" aria-hidden="true">6</span>
+                <h3 class="etapa__titulo"><span class="visualmente-oculto">Etapa 6: </span>Avaliação por indicadores e aprimoramento</h3>
+              </div>
+              <span class="selo-status selo-status--planejada" data-status-etapa="indicadoresAprimoramento"><span class="visualmente-oculto">Status: </span><span class="selo-status__texto">Planejada</span></span>
+              <p class="etapa__descricao">
+                Os indicadores (veja <a href="#avaliacao">Avaliação e viabilidade</a>) vão mostrar os resultados de forma objetiva e
+                orientar os ajustes da plataforma e sua adaptação a outros estabelecimentos.
+              </p>
+            </li>
+          </ol>
+        </div>
+
+        <div class="destaque destaque--verde">
+          <h3>Resultado esperado</h3>
+          <p>
+            Contribuir para a redução do descarte de alimentos e, consequentemente, dos impactos ambientais associados à produção,
+            ao transporte e à decomposição de resíduos alimentares.
+          </p>
+          <p>
+            Os dados gerados ajudam os estabelecimentos a adotar medidas preventivas, tornando a solução não apenas uma ferramenta
+            de redistribuição de excedentes, mas também uma forma de monitoramento e prevenção do desperdício alimentar.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 6.7 AVALIAÇÃO E VIABILIDADE ============ -->
+    <section id="avaliacao" class="secao secao--alternada" aria-labelledby="titulo-avaliacao">
+      <div class="container">
+        <header class="secao__cabecalho">
+          <p class="sobretitulo">Avaliação e viabilidade</p>
+          <h2 id="titulo-avaliacao">Como saber se a proposta funciona</h2>
+          <p class="secao__intro">
+            Ainda não há resultados: a plataforma é uma proposta. Estes são os indicadores que serão medidos
+            <span class="citacao">(PNUMA, 2024a; FOOD LOSS AND WASTE PROTOCOL, 2016)</span>.
+          </p>
+        </header>
+
+        <h3 class="subtitulo">O que será medido</h3>
+        <ul class="indicadores" role="list">
+          <li class="indicador revelar">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-balanca"/></svg>
+            <p>Quantidade de alimentos disponibilizados para reaproveitamento <span class="indicador__unidade">(kg)</span></p>
+          </li>
+          <li class="indicador revelar">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-redistribuir"/></svg>
+            <p>Quantidade de alimentos redistribuídos a pessoas e instituições cadastradas <span class="indicador__unidade">(kg)</span></p>
+          </li>
+          <li class="indicador revelar">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-queda"/></svg>
+            <p>Percentual de redução do descarte ao longo do período analisado</p>
+          </li>
+          <li class="indicador revelar">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-pessoas"/></svg>
+            <p>Número de estabelecimentos e instituições participantes</p>
+          </li>
+          <li class="indicador revelar">
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-local"/></svg>
+            <p>Períodos e locais com maior ocorrência de desperdício</p>
+          </li>
+        </ul>
+
+        <div class="duas-colunas">
+          <div class="cartao">
+            <svg class="icone cartao__icone" aria-hidden="true" focusable="false"><use href="#i-sorriso"/></svg>
+            <h3>Experiência dos usuários</h3>
+            <p>
+              Facilidade de acesso, eficiência na divulgação dos alimentos disponíveis e dificuldades encontradas na
+              redistribuição — para compreender a aceitação da solução e sua viabilidade em diferentes estabelecimentos.
+            </p>
+          </div>
+          <div class="cartao">
+            <svg class="icone cartao__icone" aria-hidden="true" focusable="false"><use href="#i-viabilizar"/></svg>
+            <h3>Viabilidade <span class="etiqueta-inline">a ser analisada</span></h3>
+            <p>
+              Formas de financiamento, parcerias e benefícios econômicos para os estabelecimentos participantes, como a redução
+              de custos com descarte, para garantir a continuidade da proposta <span class="citacao">(HANSON; MITCHELL, 2017)</span>.
+            </p>
+          </div>
+        </div>
+
+        <p class="chamada">
+          <a class="botao botao--secundario botao--grande" href="prototipo.html#painel">
+            Veja esses indicadores calculados com dados fictícios
+            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-seta"/></svg>
+          </a>
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ RODAPÉ ============ -->
+  <footer class="rodape">
+    <div class="container rodape__interno">
+      <div class="rodape__marca">
+        <p class="rodape__nome" data-config="nomePlataforma">ReAlimenta</p>
+        <p class="rodape__aviso">Proposta acadêmica. A demonstração utiliza dados fictícios.</p>
+      </div>
+      <p class="rodape__institucional">
+        <span>UCSal</span><span>Ciência, Natureza e Sociedade</span><span>Profa. Janine Melo</span><span>Salvador – BA, 2026</span>
+      </p>
+      <!-- Logo opcional: coloque o arquivo em assets/img/logo-ucsal.png. Se não existir, a imagem é removida. -->
+      <img class="rodape__logo" src="assets/img/logo-ucsal.png" alt="Universidade Católica do Salvador (UCSal)" onerror="this.remove()">
+      <a class="botao botao--claro rodape__topo" href="#inicio">
+        <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-topo"/></svg>
+        Voltar ao topo
+      </a>
+    </div>
+  </footer>
+</body>
+</html>
